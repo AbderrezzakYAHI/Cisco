@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+
+from netmiko import ConnectHandler
+import re
+
+List_host=open('file_name.txt').readlines()
+print(List_host)
+for hoste in List_host:
+    device = {
+        "device_type": "cisco_ios",
+        "host":   hoste,
+        "username": "username",
+        "password": "pass", #ou bien tu mais get.pass()
+        "verbose":True,
+    }
+    print(hoste)
+    command="show ip int br"
+    with ConnectHandler(**device) as net_connect:
+        output = net_connect.send_command_timing(command)
+        print(f"\n{output}\n")
+
+        net_connect.disconnect()
